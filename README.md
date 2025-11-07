@@ -29,7 +29,8 @@ Antes de comenzar, asegúrate de tener instalados:
 1️⃣ **Clona el repositorio**
 ```bash
 git clone https://github.com/system-erp/Back-end-NodeJs.git
-cd erp-backend
+entra en el directorio del proyecto con:
+cd
 
 
 2️⃣ **Construye y levanta los contenedores**
