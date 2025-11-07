@@ -1,13 +1,37 @@
-version: '3.8'
-
+version: '3.8' 
 services:
+# Para la conexión a la base de datos PostgreSQL
   db:
     image: postgres:13
+    container_name: postgres_db
+    restart: always
     environment:
-      POSTGRES_PASSWORD: password123
       POSTGRES_USER: user123
+      POSTGRES_PASSWORD: password123
       POSTGRES_DB: erp_db
-  app:
-    image: my-node-app
     ports:
-      - 1300:3000
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+# Para la aplicación Node.js(que corra en el puerto 3000)
+  app:
+    build: .
+    container_name: node_app
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "1300:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: user123
+      DB_PASSWORD: password123
+      DB_NAME: erp_db
+    volumes:
+      - .:/usr/src/app
+    command: npm run dev
+
+volumes:
+  pgdata:
